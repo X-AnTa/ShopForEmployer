@@ -4,6 +4,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.util.Date;
 import java.util.Set;
 
@@ -16,12 +18,14 @@ public class Product {
     @Column(name = "id")
     private int id;
 
+    @NotBlank(message = "This field must be filled")
     @Column(name = "name")
     private String name;
 
     @Column(name = "description")
     private String description;
 
+    @Positive(message = "This field must be greater than 0")
     @Column(name = "price")
     private double price;
 
