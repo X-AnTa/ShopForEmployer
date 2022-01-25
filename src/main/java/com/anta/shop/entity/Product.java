@@ -1,5 +1,8 @@
 package com.anta.shop.entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -21,10 +24,12 @@ public class Product {
     @Column(name = "price")
     private double price;
 
-    @Column(name = "date_of_creation")
+    @Column(name = "date_of_creation", updatable = false, insertable = false)
+    @CreationTimestamp
     private Date dateOfCreation;
 
-    @Column(name = "date_of_modification")
+    @Column(name = "date_of_modification", insertable = false)
+    @UpdateTimestamp
     private Date dateOfModification;
 
     public Product() {
