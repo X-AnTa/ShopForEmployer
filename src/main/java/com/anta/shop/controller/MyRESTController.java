@@ -17,30 +17,31 @@ public class MyRESTController {
     private ProductService productService;
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getAllProducts(){
+    public ResponseEntity<List<Product>> getAllProducts() {
         return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
     }
 
     @GetMapping("products/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable int id) throws Exception {
-        return new ResponseEntity<>(productService.getProduct(id), HttpStatus.OK);
+        Product product = productService.getProduct(id);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @PostMapping("/products")
-    public ResponseEntity<Product> addProduct(@RequestBody Product product){
+    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
         productService.addProduct(product);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @PutMapping("/products")
-    public ResponseEntity<Product> updateProduct(@RequestBody Product product){
+    public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
         productService.updateProduct(product);
-        return new ResponseEntity<>(product,HttpStatus.OK);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @DeleteMapping("/products/{id}")
-    public ResponseEntity<Boolean> deleteProduct(@PathVariable int id){
-        productService.deleteProduct(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Boolean> deleteProduct(@PathVariable int id) {
+        Boolean delete = productService.deleteProduct(id);
+        return new ResponseEntity<>(delete, HttpStatus.OK);
     }
 }

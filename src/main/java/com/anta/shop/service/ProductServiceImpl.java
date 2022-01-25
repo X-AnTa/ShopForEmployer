@@ -55,6 +55,7 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public boolean deleteProduct(int id) {
         Optional<Product> product = productRepository.findById(id);
+
         if (product.isPresent()){
             productRepository.deleteById(id);
             return true;
@@ -63,6 +64,4 @@ public class ProductServiceImpl implements ProductService{
             throw new NoSuchProductException();
         }
     }
-
-
 }

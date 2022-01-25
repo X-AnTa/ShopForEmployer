@@ -5,6 +5,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "products")
@@ -31,6 +32,22 @@ public class Product {
     @Column(name = "date_of_modification", insertable = false)
     @UpdateTimestamp
     private Date dateOfModification;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "product_currencies",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "currency_id")
+    )
+    private Set<Currency> currencies;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "product_descriptions",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "description_id")
+    )
+    private Set<Description> descriptions;
 
     public Product() {
     }
@@ -89,6 +106,22 @@ public class Product {
 
     public void setDateOfModification(Date dateOfModification) {
         this.dateOfModification = dateOfModification;
+    }
+
+    public Set<Currency> getCurrencies() {
+        return currencies;
+    }
+
+    public void setCurrencies(Set<Currency> currencies) {
+        this.currencies = currencies;
+    }
+
+    public Set<Description> getDescriptions() {
+        return descriptions;
+    }
+
+    public void setDescriptions(Set<Description> descriptions) {
+        this.descriptions = descriptions;
     }
 
     @Override
