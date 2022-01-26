@@ -35,7 +35,7 @@ public class MyRESTController {
 
     @PutMapping("/products/{id}")
     public ResponseEntity<ProductDTO> updateProduct(@PathVariable int id, @RequestBody ProductDTO productDTO) {
-        ProductDTO updateProductDTO = productService.updateProduct(id,productDTO);
+        ProductDTO updateProductDTO = productService.updateProduct(id, productDTO);
         return new ResponseEntity<>(updateProductDTO, HttpStatus.OK);
     }
 

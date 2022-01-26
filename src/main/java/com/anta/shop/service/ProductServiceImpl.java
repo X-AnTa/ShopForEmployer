@@ -108,7 +108,7 @@ public class ProductServiceImpl implements ProductService {
         }
         for (String descriptionLanguage : productDTO.getDescriptions()) {
             Description description = descriptionRepository.findByLanguage(descriptionLanguage);
-            if (description == null){
+            if (description == null) {
                 description = new Description();
                 description.setProducts(new HashSet<>());
             }

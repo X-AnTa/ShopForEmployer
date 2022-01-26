@@ -18,14 +18,14 @@ public class Product {
     @Column(name = "id")
     private int id;
 
-    @NotBlank(message = "This field must be filled")
+    @NotBlank(message = "Field 'name' must be filled")
     @Column(name = "name")
     private String name;
 
     @Column(name = "description")
     private String description;
 
-    @Positive(message = "This field must be greater than 0")
+    @Positive(message = "Field 'price' must be greater than 0")
     @Column(name = "price")
     private double price;
 
@@ -64,11 +64,11 @@ public class Product {
         this.dateOfModification = dateOfModification;
     }
 
-    public void addCurrencyToProduct(Currency currency){
+    public void addCurrencyToProduct(Currency currency) {
         this.currencies.add(currency);
     }
 
-    public void addDescriptionToProduct(Description description){
+    public void addDescriptionToProduct(Description description) {
         this.descriptions.add(description);
     }
 

@@ -24,8 +24,8 @@ public class Description {
     )
     private Set<Product> products;
 
-    public void addProductToDescription(Product product){
-        if (products == null){
+    public void addProductToDescription(Product product) {
+        if (products == null) {
             products = new HashSet<>();
             products.add(product);
         }
