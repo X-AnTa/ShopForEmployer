@@ -1,18 +1,18 @@
 package com.anta.shop.service;
 
-import com.anta.shop.entity.Product;
+import com.anta.shop.dto.ProductDTO;
 
 import java.util.List;
 
 public interface ProductService {
 
-    List<Product> getAllProducts();
+    List<ProductDTO> getAllProducts();
 
-    Product addProduct(Product product);
+    ProductDTO addProduct(ProductDTO productDTO);
 
-    Product updateProduct(Product product);
+    ProductDTO updateProduct(int id, ProductDTO productDTO);
 
-    Product getProduct(int id) throws Exception;
+    ProductDTO getProduct(int id) throws Exception;
 
     boolean deleteProduct(int id);
 

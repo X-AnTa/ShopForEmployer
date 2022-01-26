@@ -1,6 +1,6 @@
 package com.anta.shop.controller;
 
-import com.anta.shop.entity.Product;
+import com.anta.shop.dto.ProductDTO;
 import com.anta.shop.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,26 +17,26 @@ public class MyRESTController {
     private ProductService productService;
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getAllProducts() {
+    public ResponseEntity<List<ProductDTO>> getAllProducts() {
         return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
     }
 
     @GetMapping("products/{id}")
-    public ResponseEntity<Product> getProduct(@PathVariable int id) throws Exception {
-        Product product = productService.getProduct(id);
-        return new ResponseEntity<>(product, HttpStatus.OK);
+    public ResponseEntity<ProductDTO> getProduct(@PathVariable int id) throws Exception {
+        ProductDTO productDTO = productService.getProduct(id);
+        return new ResponseEntity<>(productDTO, HttpStatus.OK);
     }
 
     @PostMapping("/products")
-    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
-        productService.addProduct(product);
-        return new ResponseEntity<>(product, HttpStatus.OK);
+    public ResponseEntity<ProductDTO> addProduct(@RequestBody ProductDTO productDTO) {
+        ProductDTO addProductDto = productService.addProduct(productDTO);
+        return new ResponseEntity<>(addProductDto, HttpStatus.CREATED);
     }
 
-    @PutMapping("/products")
-    public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
-        productService.updateProduct(product);
-        return new ResponseEntity<>(product, HttpStatus.OK);
+    @PutMapping("/products/{id}")
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable int id, @RequestBody ProductDTO productDTO) {
+        ProductDTO updateProductDTO = productService.updateProduct(id,productDTO);
+        return new ResponseEntity<>(updateProductDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("/products/{id}")

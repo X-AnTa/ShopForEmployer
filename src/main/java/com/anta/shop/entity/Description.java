@@ -1,6 +1,8 @@
 package com.anta.shop.entity;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "description")
@@ -13,6 +15,21 @@ public class Description {
 
     @Column(name = "language")
     private String language;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinTable(
+            name = "product_descriptions",
+            joinColumns = @JoinColumn(name = "description_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private Set<Product> products;
+
+    public void addProductToDescription(Product product){
+        if (products == null){
+            products = new HashSet<>();
+            products.add(product);
+        }
+    }
 
     public Description() {
     }
@@ -35,6 +52,14 @@ public class Description {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
     }
 
     @Override

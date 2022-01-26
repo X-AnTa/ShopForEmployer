@@ -37,7 +37,7 @@ public class Product {
     @UpdateTimestamp
     private Date dateOfModification;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(
             name = "product_currencies",
             joinColumns = @JoinColumn(name = "product_id"),
@@ -45,7 +45,7 @@ public class Product {
     )
     private Set<Currency> currencies;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(
             name = "product_descriptions",
             joinColumns = @JoinColumn(name = "product_id"),
@@ -62,6 +62,14 @@ public class Product {
         this.price = price;
         this.dateOfCreation = dateOfCreation;
         this.dateOfModification = dateOfModification;
+    }
+
+    public void addCurrencyToProduct(Currency currency){
+        this.currencies.add(currency);
+    }
+
+    public void addDescriptionToProduct(Description description){
+        this.descriptions.add(description);
     }
 
     public int getId() {
