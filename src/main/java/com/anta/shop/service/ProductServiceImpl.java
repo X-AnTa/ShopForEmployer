@@ -31,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
     private DescriptionRepository descriptionRepository;
 
     @Override
-    public List<ProductDTO> getAllProducts() {
+    public List<ProductDTO> getAllProductsForAdmin() {
         List<ProductDTO> productDTOS = new ArrayList<>();
         List<Product> products = productRepository.findAll();
         products.forEach(pr -> {
@@ -42,14 +42,39 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDTO getProduct(int id) {
-        Optional<Product> optional = productRepository.findById(id);
+    public List<ProductDTO> getAllProductsForClient() {
+        List<ProductDTO> productDTOS = new ArrayList<>();
+        List<Product> products = productRepository.findAll();
+        products.forEach(pr -> {
+            if (!((pr.getCurrencies().isEmpty()) || (pr.getDescriptions().isEmpty()))) {
+                ProductDTO productDTO = fromProductToProductDTO(pr);
+                productDTOS.add(productDTO);
+            }
+        });
+        return productDTOS;
+    }
 
-        if (optional.isPresent()) {
-            return fromProductToProductDTO(optional.get());
-        } else {
+    @Override
+    public ProductDTO getProductForAdmin(int id) {
+        Optional<Product> productOptional = productRepository.findById(id);
+
+        if (productOptional.isPresent()) {
+            return fromProductToProductDTO(productOptional.get());
+        } else
             throw new NoSuchProductException();
+    }
+
+    @Override
+    public ProductDTO getProductForClient(int id) {
+        Optional<Product> productOptional = productRepository.findById(id);
+        ProductDTO productDTO = new ProductDTO();
+        if ((productOptional.isPresent())) {
+            productDTO = fromProductToProductDTO(productOptional.get());
         }
+        if (!(productDTO == null || productDTO.getCurrencies().isEmpty() || productDTO.getDescriptions().isEmpty())) {
+            return productDTO;
+        } else
+            throw new NoSuchProductException();
     }
 
     @Override
@@ -57,8 +82,8 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO addProduct(ProductDTO productDTO) {
         Product product = new Product();
         fromProductDTOToProduct(productDTO, product);
-        Product pr = productRepository.save(product);
-        return fromProductToProductDTO(pr);
+        Product newProduct = productRepository.save(product);
+        return fromProductToProductDTO(newProduct);
     }
 
     @Override
@@ -66,29 +91,59 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO updateProduct(int id, ProductDTO productDTO) {
         Product product = productRepository.getById(id);
         fromProductDTOToProduct(productDTO, product);
-        Product updateThisProduct = productRepository.save(product);
-        return fromProductToProductDTO(updateThisProduct);
+        Product updatedProduct = productRepository.save(product);
+        return fromProductToProductDTO(updatedProduct);
     }
 
     @Override
     public boolean deleteProduct(int id) {
-        Optional<Product> optional = productRepository.findById(id);
+        Optional<Product> productOptional = productRepository.findById(id);
 
-        if (optional.isPresent()) {
+        if (productOptional.isPresent()) {
             productRepository.deleteById(id);
             return true;
-        } else {
+        } else
             throw new NoSuchProductException();
-        }
+    }
+
+    @Override
+    public List<ProductDTO> getAllByName(String name) {
+        List<ProductDTO> productDTOS = new ArrayList<>();
+        List<Product> products = productRepository.findAllByName(name);
+        products.forEach(pr -> {
+            if (!((pr.getCurrencies().isEmpty()) || (pr.getDescriptions().isEmpty()))) {
+                ProductDTO productDTO = fromProductToProductDTO(pr);
+                productDTOS.add(productDTO);
+            }
+        });
+
+        if (!(productDTOS.isEmpty())) {
+            return productDTOS;
+        } else
+            throw new NoSuchProductException();
+    }
+
+    @Override
+    public List<ProductDTO> getAllByDescription(String description) {
+        List<ProductDTO> productDTOS = new ArrayList<>();
+        List<Product> products = productRepository.findAllByDescription(description);
+        products.forEach(pr -> {
+            if (!((pr.getCurrencies().isEmpty()) || (pr.getDescriptions().isEmpty()))) {
+                ProductDTO productDTO = fromProductToProductDTO(pr);
+                productDTOS.add(productDTO);
+            }
+        });
+
+        if (!(productDTOS.isEmpty())) {
+            return productDTOS;
+        } else
+            throw new NoSuchProductException();
     }
 
     public void fromProductDTOToProduct(ProductDTO productDTO, Product product) {
-        product.setId(productDTO.getId());
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());
-        product.setDateOfCreation(productDTO.getDateOfCreation());
-        product.setDateOfModification(productDTO.getDateOfModification());
 
         if (product.getCurrencies() == null) {
             product.setCurrencies(new HashSet<>());

@@ -18,25 +18,25 @@ public class MyRESTController {
 
     @GetMapping("/products")
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
-        return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
+        return new ResponseEntity<>(productService.getAllProductsForAdmin(), HttpStatus.OK);
     }
 
     @GetMapping("products/{id}")
     public ResponseEntity<ProductDTO> getProduct(@PathVariable int id) throws Exception {
-        ProductDTO productDTO = productService.getProduct(id);
+        ProductDTO productDTO = productService.getProductForAdmin(id);
         return new ResponseEntity<>(productDTO, HttpStatus.OK);
     }
 
     @PostMapping("/products")
     public ResponseEntity<ProductDTO> addProduct(@RequestBody ProductDTO productDTO) {
-        ProductDTO addProductDto = productService.addProduct(productDTO);
-        return new ResponseEntity<>(addProductDto, HttpStatus.CREATED);
+        ProductDTO newProductDto = productService.addProduct(productDTO);
+        return new ResponseEntity<>(newProductDto, HttpStatus.CREATED);
     }
 
     @PutMapping("/products/{id}")
     public ResponseEntity<ProductDTO> updateProduct(@PathVariable int id, @RequestBody ProductDTO productDTO) {
-        ProductDTO updateProductDTO = productService.updateProduct(id, productDTO);
-        return new ResponseEntity<>(updateProductDTO, HttpStatus.OK);
+        ProductDTO updatedProductDTO = productService.updateProduct(id, productDTO);
+        return new ResponseEntity<>(updatedProductDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("/products/{id}")
