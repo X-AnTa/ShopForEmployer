@@ -1,6 +1,7 @@
 package com.anta.shop.controller;
 
 import com.anta.shop.dto.ProductDTO;
+import com.anta.shop.exception_handling.ProductIncorrectData;
 import com.anta.shop.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,12 +28,21 @@ public class ClientRESTController {
     }
 
     @GetMapping("/products/name/{name}")
-    public ResponseEntity<List<ProductDTO>> getAllByName(@PathVariable String name){
+    public ResponseEntity<List<ProductDTO>> getAllByName(@PathVariable String name) {
         return new ResponseEntity<>(productService.getAllByName(name), HttpStatus.OK);
     }
 
     @GetMapping("/products/description/{description}")
-    public ResponseEntity<List<ProductDTO>> getAllByDescription(@PathVariable String description){
+    public ResponseEntity<List<ProductDTO>> getAllByDescription(@PathVariable String description) {
         return new ResponseEntity<>(productService.getAllByDescription(description), HttpStatus.OK);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ProductIncorrectData> handleException(Exception exception) {
+        ProductIncorrectData data = new ProductIncorrectData();
+        data.setErrorMessage("Product(s) not found");
+        data.setErrorCode("404 NOT_FOUND");
+
+        return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
     }
 }
