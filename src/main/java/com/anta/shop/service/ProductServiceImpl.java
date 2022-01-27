@@ -8,6 +8,8 @@ import com.anta.shop.entity.Currency;
 import com.anta.shop.entity.Description;
 import com.anta.shop.entity.Product;
 import com.anta.shop.exception_handling.NoSuchProductException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
+    private static final Logger log = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     @Resource
     private ProductRepository productRepository;
@@ -71,10 +75,12 @@ public class ProductServiceImpl implements ProductService {
         if ((productOptional.isPresent())) {
             productDTO = fromProductToProductDTO(productOptional.get());
         }
-        if (!(productDTO == null || productDTO.getCurrencies().isEmpty() || productDTO.getDescriptions().isEmpty())) {
+        if (!(productDTO == null || productDTO.getCurrencies().isEmpty() || productDTO.getDescriptions().isEmpty()))
             return productDTO;
-        } else
+        else {
+            log.info("getProductForClient: logging exception");
             throw new NoSuchProductException();
+        }
     }
 
     @Override
@@ -119,8 +125,10 @@ public class ProductServiceImpl implements ProductService {
 
         if (!(productDTOS.isEmpty())) {
             return productDTOS;
-        } else
+        } else {
+            log.info("getAllByName: logging exception");
             throw new NoSuchProductException();
+        }
     }
 
     @Override
@@ -136,8 +144,10 @@ public class ProductServiceImpl implements ProductService {
 
         if (!(productDTOS.isEmpty())) {
             return productDTOS;
-        } else
+        } else {
+            log.info("getAllByDescription: logging exception");
             throw new NoSuchProductException();
+        }
     }
 
     public void fromProductDTOToProduct(ProductDTO productDTO, Product product) {

@@ -4,8 +4,8 @@ create table products
     name varchar(30) null,
     description varchar(150) null,
     price decimal null,
-    date_of_creation timestamp default CURRENT_TIMESTAMP null,
-    date_of_modification timestamp default CURRENT_TIMESTAMP null 
+    date_of_creation TIMESTAMP default CURRENT_TIMESTAMP null,
+    date_of_modification TIMESTAMP default CURRENT_TIMESTAMP null
 );
 
 CREATE TABLE currency (

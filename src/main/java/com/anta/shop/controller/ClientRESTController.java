@@ -3,6 +3,8 @@ package com.anta.shop.controller;
 import com.anta.shop.dto.ProductDTO;
 import com.anta.shop.exception_handling.ProductIncorrectData;
 import com.anta.shop.service.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/shop_client")
 public class ClientRESTController {
+
+    private static final Logger log = LoggerFactory.getLogger(ClientRESTController.class);
 
     @Resource
     private ProductService productService;
@@ -42,6 +46,8 @@ public class ClientRESTController {
         ProductIncorrectData data = new ProductIncorrectData();
         data.setErrorMessage("Product(s) not found");
         data.setErrorCode("404 NOT_FOUND");
+
+        log.info("handleException: logging exception");
 
         return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
     }
