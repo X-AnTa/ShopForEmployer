@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/shop_admin")
-public class MyRESTController {
+public class AdminRESTController {
 
     @Resource
     private ProductService productService;
