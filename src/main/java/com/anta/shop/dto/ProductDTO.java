@@ -1,5 +1,7 @@
 package com.anta.shop.dto;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.Set;
 
@@ -8,7 +10,7 @@ public class ProductDTO {
     private int id;
     private String name;
     private String description;
-    private double price;
+    private BigDecimal price;
     private Date dateOfCreation;
     private Date dateOfModification;
     private Set<String> currencies;
@@ -38,12 +40,13 @@ public class ProductDTO {
         this.description = description;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setPrice(BigDecimal price) {
+        BigDecimal bigDecimal = new BigDecimal(String.valueOf(price)).setScale(2, RoundingMode.DOWN);
+        this.price = bigDecimal;
     }
 
     public Date getDateOfCreation() {

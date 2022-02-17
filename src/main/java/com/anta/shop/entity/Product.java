@@ -6,6 +6,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.Set;
 
@@ -27,7 +29,7 @@ public class Product {
 
     @Positive(message = "Field 'price' must be greater than 0")
     @Column(name = "price")
-    private double price;
+    private BigDecimal price;
 
     @Column(name = "date_of_creation", updatable = false, insertable = false)
     @CreationTimestamp
@@ -56,7 +58,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, String description, double price, Date dateOfCreation, Date dateOfModification) {
+    public Product(String name, String description, BigDecimal price, Date dateOfCreation, Date dateOfModification) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -96,12 +98,13 @@ public class Product {
         this.description = description;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setPrice(BigDecimal price) {
+        BigDecimal bigDecimal = new BigDecimal(String.valueOf(price)).setScale(2, RoundingMode.DOWN);
+        this.price = bigDecimal;
     }
 
     public Date getDateOfCreation() {
