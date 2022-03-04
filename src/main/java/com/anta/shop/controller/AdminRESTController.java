@@ -22,7 +22,7 @@ public class AdminRESTController {
     }
 
     @GetMapping("products/{id}")
-    public ResponseEntity<ProductDTO> getProduct(@PathVariable int id) throws Exception {
+    public ResponseEntity<ProductDTO> getProduct(@PathVariable int id) {
         ProductDTO productDTO = productService.getProductForAdmin(id);
         return new ResponseEntity<>(productDTO, HttpStatus.OK);
     }

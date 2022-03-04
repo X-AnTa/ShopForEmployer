@@ -14,10 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -115,7 +112,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDTO> getAllByName(String name) {
         List<ProductDTO> productDTOS = new ArrayList<>();
-        List<Product> products = productRepository.findAllByName(name);
+        List<Product> products = productRepository.findAllByName(name.toLowerCase());
         products.forEach(pr -> {
             if (!((pr.getCurrencies().isEmpty()) || (pr.getDescriptions().isEmpty()))) {
                 ProductDTO productDTO = fromProductToProductDTO(pr);
@@ -123,31 +120,20 @@ public class ProductServiceImpl implements ProductService {
             }
         });
 
-        if (!(productDTOS.isEmpty())) {
-            return productDTOS;
-        } else {
-            log.info("getAllByName: logging exception");
-            throw new NoSuchProductException();
-        }
+        return productDTOS;
     }
 
     @Override
     public List<ProductDTO> getAllByDescription(String description) {
         List<ProductDTO> productDTOS = new ArrayList<>();
-        List<Product> products = productRepository.findAllByDescription(description);
+        List<Product> products = productRepository.findAllByDescription(description.toLowerCase());
         products.forEach(pr -> {
             if (!((pr.getCurrencies().isEmpty()) || (pr.getDescriptions().isEmpty()))) {
                 ProductDTO productDTO = fromProductToProductDTO(pr);
                 productDTOS.add(productDTO);
             }
         });
-
-        if (!(productDTOS.isEmpty())) {
-            return productDTOS;
-        } else {
-            log.info("getAllByDescription: logging exception");
-            throw new NoSuchProductException();
-        }
+        return productDTOS;
     }
 
     public void fromProductDTOToProduct(ProductDTO productDTO, Product product) {

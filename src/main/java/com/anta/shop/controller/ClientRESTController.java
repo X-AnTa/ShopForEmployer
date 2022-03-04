@@ -27,7 +27,7 @@ public class ClientRESTController {
     }
 
     @GetMapping("products/{id}")
-    public ResponseEntity<ProductDTO> getProduct(@PathVariable int id) throws Exception {
+    public ResponseEntity<ProductDTO> getProduct(@PathVariable int id) {
         return new ResponseEntity<>(productService.getProductForClient(id), HttpStatus.OK);
     }
 

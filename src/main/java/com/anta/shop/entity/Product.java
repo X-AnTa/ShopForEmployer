@@ -103,8 +103,7 @@ public class Product {
     }
 
     public void setPrice(BigDecimal price) {
-        BigDecimal bigDecimal = new BigDecimal(String.valueOf(price)).setScale(2, RoundingMode.DOWN);
-        this.price = bigDecimal;
+        this.price = new BigDecimal(String.valueOf(price)).setScale(2, RoundingMode.DOWN);
     }
 
     public Date getDateOfCreation() {

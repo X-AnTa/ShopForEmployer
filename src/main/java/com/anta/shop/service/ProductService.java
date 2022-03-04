@@ -14,9 +14,9 @@ public interface ProductService {
 
     ProductDTO updateProduct(int id, ProductDTO productDTO);
 
-    ProductDTO getProductForAdmin(int id) throws Exception;
+    ProductDTO getProductForAdmin(int id);
 
-    ProductDTO getProductForClient(int id) throws Exception;
+    ProductDTO getProductForClient(int id);
 
     boolean deleteProduct(int id);
 
