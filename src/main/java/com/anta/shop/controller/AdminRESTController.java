@@ -4,8 +4,6 @@ import com.anta.shop.dto.ProductDTO;
 import com.anta.shop.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -21,15 +19,6 @@ public class AdminRESTController {
     @GetMapping("/products")
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
         return new ResponseEntity<>(productService.getAllProductsForAdmin(), HttpStatus.OK);
-    }
-
-    @GetMapping("/productss")
-    public String showAllProducts(ModelMap model){
-        List<ProductDTO> allProductss = productService.getAllProductsForAdmin();
-        model.addAttribute("allPr", allProductss);
-
-        return "all-productss";
-
     }
 
     @GetMapping("products/{id}")
