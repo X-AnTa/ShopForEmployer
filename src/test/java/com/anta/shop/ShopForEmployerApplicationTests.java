@@ -1,6 +1,6 @@
 package com.anta.shop;
 
-import com.anta.shop.dao.ProductRepository;
+import com.anta.shop.repository.ProductRepository;
 import com.anta.shop.entity.Currency;
 import com.anta.shop.entity.Description;
 import com.anta.shop.entity.Product;

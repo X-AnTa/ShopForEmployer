@@ -1,8 +1,8 @@
 package com.anta.shop.service;
 
-import com.anta.shop.dao.CurrencyRepository;
-import com.anta.shop.dao.DescriptionRepository;
-import com.anta.shop.dao.ProductRepository;
+import com.anta.shop.repository.CurrencyRepository;
+import com.anta.shop.repository.DescriptionRepository;
+import com.anta.shop.repository.ProductRepository;
 import com.anta.shop.dto.ProductDTO;
 import com.anta.shop.entity.Currency;
 import com.anta.shop.entity.Description;
@@ -10,10 +10,10 @@ import com.anta.shop.entity.Product;
 import com.anta.shop.exception_handling.NoSuchProductException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -22,14 +22,18 @@ public class ProductServiceImpl implements ProductService {
 
     private static final Logger log = LoggerFactory.getLogger(ProductServiceImpl.class);
 
-    @Resource
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    @Resource
-    private CurrencyRepository currencyRepository;
+    private final CurrencyRepository currencyRepository;
 
-    @Resource
-    private DescriptionRepository descriptionRepository;
+    private final DescriptionRepository descriptionRepository;
+
+    @Autowired
+    public ProductServiceImpl(ProductRepository productRepository, CurrencyRepository currencyRepository, DescriptionRepository descriptionRepository) {
+        this.productRepository = productRepository;
+        this.currencyRepository = currencyRepository;
+        this.descriptionRepository = descriptionRepository;
+    }
 
     @Override
     public List<ProductDTO> getAllProductsForAdmin() {

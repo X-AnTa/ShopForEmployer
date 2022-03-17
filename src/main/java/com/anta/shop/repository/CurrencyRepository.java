@@ -1,4 +1,4 @@
-package com.anta.shop.dao;
+package com.anta.shop.repository;
 
 import com.anta.shop.entity.Currency;
 import org.springframework.data.jpa.repository.JpaRepository;

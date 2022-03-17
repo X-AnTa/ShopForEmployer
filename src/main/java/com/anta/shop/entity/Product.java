@@ -110,16 +110,8 @@ public class Product {
         return dateOfCreation;
     }
 
-    public void setDateOfCreation(Date dateOfCreation) {
-        this.dateOfCreation = dateOfCreation;
-    }
-
     public Date getDateOfModification() {
         return dateOfModification;
-    }
-
-    public void setDateOfModification(Date dateOfModification) {
-        this.dateOfModification = dateOfModification;
     }
 
     public Set<Currency> getCurrencies() {

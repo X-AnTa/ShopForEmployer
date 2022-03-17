@@ -3,39 +3,50 @@ package com.anta.shop.controller;
 import com.anta.shop.dto.ProductDTO;
 import com.anta.shop.exception_handling.ProductIncorrectData;
 import com.anta.shop.service.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.List;
 
+@Tag(name = "Client controller")
 @RestController
 @RequestMapping("/shop_client")
 public class ClientRESTController {
 
     private static final Logger log = LoggerFactory.getLogger(ClientRESTController.class);
 
-    @Resource
-    private ProductService productService;
+    private final ProductService productService;
 
+    @Autowired
+    public ClientRESTController(ProductService productService) {
+        this.productService = productService;
+    }
+
+    @Operation(summary = "Get all products")
     @GetMapping("/products")
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
         return new ResponseEntity<>(productService.getAllProductsForClient(), HttpStatus.OK);
     }
 
+    @Operation(summary = "Get product by id")
     @GetMapping("products/{id}")
     public ResponseEntity<ProductDTO> getProduct(@PathVariable int id) {
         return new ResponseEntity<>(productService.getProductForClient(id), HttpStatus.OK);
     }
 
+    @Operation(summary = "Get all products by name")
     @GetMapping("/products/name/{name}")
     public ResponseEntity<List<ProductDTO>> getAllByName(@PathVariable String name) {
         return new ResponseEntity<>(productService.getAllByName(name), HttpStatus.OK);
     }
 
+    @Operation(summary = "Get all products by description")
     @GetMapping("/products/description/{description}")
     public ResponseEntity<List<ProductDTO>> getAllByDescription(@PathVariable String description) {
         return new ResponseEntity<>(productService.getAllByDescription(description), HttpStatus.OK);
