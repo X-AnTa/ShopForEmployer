@@ -35,6 +35,10 @@ public class ProductServiceImpl implements ProductService {
         this.descriptionRepository = descriptionRepository;
     }
 
+    /**
+     * Search all Products for AdminRestController
+     * @return List
+     */
     @Override
     public List<ProductDTO> getAllProductsForAdmin() {
         List<ProductDTO> productDTOS = new ArrayList<>();
@@ -46,6 +50,10 @@ public class ProductServiceImpl implements ProductService {
         return productDTOS;
     }
 
+    /**
+     * Search all Products for ClientRestController
+     * @return List
+     */
     @Override
     public List<ProductDTO> getAllProductsForClient() {
         List<ProductDTO> productDTOS = new ArrayList<>();
@@ -59,6 +67,11 @@ public class ProductServiceImpl implements ProductService {
         return productDTOS;
     }
 
+    /**
+     * Search Product by id for AdminRestController
+     * @param id Product id
+     * @return Product
+     */
     @Override
     public ProductDTO getProductForAdmin(int id) {
         Optional<Product> productOptional = productRepository.findById(id);
@@ -69,6 +82,11 @@ public class ProductServiceImpl implements ProductService {
             throw new NoSuchProductException();
     }
 
+    /**
+     * Search Product by id for ClentRestController
+     * @param id Product id
+     * @return Product
+     */
     @Override
     public ProductDTO getProductForClient(int id) {
         Optional<Product> productOptional = productRepository.findById(id);
@@ -84,6 +102,11 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    /**
+     * Save new Product
+     * @param productDTO new Product
+     * @return new Product
+     */
     @Override
     @Transactional
     public ProductDTO addProduct(ProductDTO productDTO) {
@@ -93,6 +116,12 @@ public class ProductServiceImpl implements ProductService {
         return fromProductToProductDTO(newProduct);
     }
 
+    /**
+     * Save updated Product
+     * @param id Product id
+     * @param productDTO necessary Product
+     * @return updated Product
+     */
     @Override
     @Transactional
     public ProductDTO updateProduct(int id, ProductDTO productDTO) {
@@ -102,6 +131,11 @@ public class ProductServiceImpl implements ProductService {
         return fromProductToProductDTO(updatedProduct);
     }
 
+    /**
+     * Delete Product
+     * @param id Product id
+     * @return true or false
+     */
     @Override
     public boolean deleteProduct(int id) {
         Optional<Product> productOptional = productRepository.findById(id);
@@ -113,6 +147,11 @@ public class ProductServiceImpl implements ProductService {
             throw new NoSuchProductException();
     }
 
+    /**
+     * Search Products by name
+     * @param name Product name
+     * @return List
+     */
     @Override
     public List<ProductDTO> getAllByName(String name) {
         List<ProductDTO> productDTOS = new ArrayList<>();
@@ -123,10 +162,14 @@ public class ProductServiceImpl implements ProductService {
                 productDTOS.add(productDTO);
             }
         });
-
         return productDTOS;
     }
 
+    /**
+     * Search Products by description
+     * @param description Product description
+     * @return List
+     */
     @Override
     public List<ProductDTO> getAllByDescription(String description) {
         List<ProductDTO> productDTOS = new ArrayList<>();
@@ -140,6 +183,11 @@ public class ProductServiceImpl implements ProductService {
         return productDTOS;
     }
 
+    /**
+     * Transformation ProductDTO to Product
+     * @param productDTO ProductDTO
+     * @param product Product
+     */
     public void fromProductDTOToProduct(ProductDTO productDTO, Product product) {
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
@@ -172,6 +220,11 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    /**
+     * Transformation Product to ProductDTO
+     * @param product Product
+     * @return ProductDTO
+     */
     public ProductDTO fromProductToProductDTO(Product product) {
         ProductDTO productDTO = new ProductDTO();
         productDTO.setId(product.getId());
