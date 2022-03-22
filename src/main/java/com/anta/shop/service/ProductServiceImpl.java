@@ -35,26 +35,17 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDTO> getAllProductsForAdmin() {
-        List<ProductDTO> productDTOS = new ArrayList<>();
-        List<Product> products = productRepository.findAll();
-        products.forEach(pr -> {
-            ProductDTO productDTO = fromProductToProductDTO(pr);
-            productDTOS.add(productDTO);
-        });
-        return productDTOS;
+        return productRepository.findAll().stream()
+                .map(this::fromProductToProductDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<ProductDTO> getAllProductsForClient() {
-        List<ProductDTO> productDTOS = new ArrayList<>();
-        List<Product> products = productRepository.findAll();
-        products.forEach(pr -> {
-            if (!((pr.getCurrencies().isEmpty()) || (pr.getDescriptions().isEmpty()))) {
-                ProductDTO productDTO = fromProductToProductDTO(pr);
-                productDTOS.add(productDTO);
-            }
-        });
-        return productDTOS;
+        return productRepository.findAll().stream()
+                .filter(pr -> !(pr.getCurrencies().isEmpty() || pr.getDescriptions().isEmpty()))
+                .map(this::fromProductToProductDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -103,35 +94,25 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDTO> getAllByName(String name) {
-        List<ProductDTO> productDTOS = new ArrayList<>();
-        List<Product> products = productRepository.findAllByName(name.toLowerCase());
-        products.forEach(pr -> {
-            if (!((pr.getCurrencies().isEmpty()) || (pr.getDescriptions().isEmpty()))) {
-                ProductDTO productDTO = fromProductToProductDTO(pr);
-                productDTOS.add(productDTO);
-            }
-        });
-        return productDTOS;
+        return productRepository.findAllByName(name.toLowerCase()).stream()
+                .filter(pr -> !(pr.getCurrencies().isEmpty() || pr.getDescriptions().isEmpty()))
+                .map(this::fromProductToProductDTO)
+                .collect(Collectors.toList());
     }
-
 
     @Override
     public List<ProductDTO> getAllByDescription(String description) {
-        List<ProductDTO> productDTOS = new ArrayList<>();
-        List<Product> products = productRepository.findAllByDescription(description.toLowerCase());
-        products.forEach(pr -> {
-            if (!((pr.getCurrencies().isEmpty()) || (pr.getDescriptions().isEmpty()))) {
-                ProductDTO productDTO = fromProductToProductDTO(pr);
-                productDTOS.add(productDTO);
-            }
-        });
-        return productDTOS;
+        return productRepository.findAllByDescription(description.toLowerCase()).stream()
+                .filter(pr -> !(pr.getCurrencies().isEmpty() || pr.getDescriptions().isEmpty()))
+                .map(this::fromProductToProductDTO)
+                .collect(Collectors.toList());
     }
 
     /**
      * Transformation ProductDTO to Product
+     *
      * @param productDTO ProductDTO
-     * @param product Product
+     * @param product    Product
      */
     public void fromProductDTOToProduct(ProductDTO productDTO, Product product) {
         product.setName(productDTO.getName());
@@ -167,6 +148,7 @@ public class ProductServiceImpl implements ProductService {
 
     /**
      * Transformation Product to ProductDTO
+     *
      * @param product Product
      * @return ProductDTO
      */
