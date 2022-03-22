@@ -10,7 +10,6 @@ import com.anta.shop.entity.Product;
 import com.anta.shop.exception_handling.NoSuchProductException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,17 +27,12 @@ public class ProductServiceImpl implements ProductService {
 
     private final DescriptionRepository descriptionRepository;
 
-    @Autowired
     public ProductServiceImpl(ProductRepository productRepository, CurrencyRepository currencyRepository, DescriptionRepository descriptionRepository) {
         this.productRepository = productRepository;
         this.currencyRepository = currencyRepository;
         this.descriptionRepository = descriptionRepository;
     }
 
-    /**
-     * Search all Products for AdminRestController
-     * @return List
-     */
     @Override
     public List<ProductDTO> getAllProductsForAdmin() {
         List<ProductDTO> productDTOS = new ArrayList<>();
@@ -50,10 +44,6 @@ public class ProductServiceImpl implements ProductService {
         return productDTOS;
     }
 
-    /**
-     * Search all Products for ClientRestController
-     * @return List
-     */
     @Override
     public List<ProductDTO> getAllProductsForClient() {
         List<ProductDTO> productDTOS = new ArrayList<>();
@@ -67,11 +57,6 @@ public class ProductServiceImpl implements ProductService {
         return productDTOS;
     }
 
-    /**
-     * Search Product by id for AdminRestController
-     * @param id Product id
-     * @return Product
-     */
     @Override
     public ProductDTO getProductForAdmin(int id) {
         Optional<Product> productOptional = productRepository.findById(id);
@@ -82,11 +67,6 @@ public class ProductServiceImpl implements ProductService {
             throw new NoSuchProductException();
     }
 
-    /**
-     * Search Product by id for ClentRestController
-     * @param id Product id
-     * @return Product
-     */
     @Override
     public ProductDTO getProductForClient(int id) {
         Optional<Product> productOptional = productRepository.findById(id);
@@ -102,11 +82,6 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    /**
-     * Save new Product
-     * @param productDTO new Product
-     * @return new Product
-     */
     @Override
     @Transactional
     public ProductDTO addProduct(ProductDTO productDTO) {
@@ -116,12 +91,6 @@ public class ProductServiceImpl implements ProductService {
         return fromProductToProductDTO(newProduct);
     }
 
-    /**
-     * Save updated Product
-     * @param id Product id
-     * @param productDTO necessary Product
-     * @return updated Product
-     */
     @Override
     @Transactional
     public ProductDTO updateProduct(int id, ProductDTO productDTO) {
@@ -131,11 +100,6 @@ public class ProductServiceImpl implements ProductService {
         return fromProductToProductDTO(updatedProduct);
     }
 
-    /**
-     * Delete Product
-     * @param id Product id
-     * @return true or false
-     */
     @Override
     public boolean deleteProduct(int id) {
         Optional<Product> productOptional = productRepository.findById(id);
@@ -147,11 +111,6 @@ public class ProductServiceImpl implements ProductService {
             throw new NoSuchProductException();
     }
 
-    /**
-     * Search Products by name
-     * @param name Product name
-     * @return List
-     */
     @Override
     public List<ProductDTO> getAllByName(String name) {
         List<ProductDTO> productDTOS = new ArrayList<>();
@@ -165,11 +124,7 @@ public class ProductServiceImpl implements ProductService {
         return productDTOS;
     }
 
-    /**
-     * Search Products by description
-     * @param description Product description
-     * @return List
-     */
+
     @Override
     public List<ProductDTO> getAllByDescription(String description) {
         List<ProductDTO> productDTOS = new ArrayList<>();

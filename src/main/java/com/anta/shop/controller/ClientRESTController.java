@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,48 +22,28 @@ public class ClientRESTController {
 
     private final ProductService productService;
 
-    @Autowired
     public ClientRESTController(ProductService productService) {
         this.productService = productService;
     }
 
-    /**
-     * Get all Products
-     * @return List
-     */
     @Operation(summary = "Get all products")
     @GetMapping("/products")
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
         return new ResponseEntity<>(productService.getAllProductsForClient(), HttpStatus.OK);
     }
 
-    /**
-     * Get Product by id
-     * @param id Product id
-     * @return Product
-     */
     @Operation(summary = "Get product by id")
     @GetMapping("products/{id}")
     public ResponseEntity<ProductDTO> getProduct(@PathVariable int id) {
         return new ResponseEntity<>(productService.getProductForClient(id), HttpStatus.OK);
     }
 
-    /**
-     * Get all Products by name
-     * @param name Product name
-     * @return List
-     */
     @Operation(summary = "Get all products by name")
     @GetMapping("/products/name/{name}")
     public ResponseEntity<List<ProductDTO>> getAllByName(@PathVariable String name) {
         return new ResponseEntity<>(productService.getAllByName(name), HttpStatus.OK);
     }
 
-    /**
-     * Get all Products by description
-     * @param description Product description
-     * @return List
-     */
     @Operation(summary = "Get all products by description")
     @GetMapping("/products/description/{description}")
     public ResponseEntity<List<ProductDTO>> getAllByDescription(@PathVariable String description) {
