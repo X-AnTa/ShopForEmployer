@@ -59,27 +59,17 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO getProductForAdmin(int id) {
-        Optional<Product> productOptional = productRepository.findById(id);
-
-        if (productOptional.isPresent()) {
-            return fromProductToProductDTO(productOptional.get());
-        } else
-            throw new NoSuchProductException();
+        return productRepository.findById(id)
+                .map(this::fromProductToProductDTO)
+                .orElseThrow(NoSuchProductException::new);
     }
 
     @Override
     public ProductDTO getProductForClient(int id) {
-        Optional<Product> productOptional = productRepository.findById(id);
-        ProductDTO productDTO = new ProductDTO();
-        if ((productOptional.isPresent())) {
-            productDTO = fromProductToProductDTO(productOptional.get());
-        }
-        if (!(productDTO == null || productDTO.getCurrencies().isEmpty() || productDTO.getDescriptions().isEmpty()))
-            return productDTO;
-        else {
-            log.info("getProductForClient: logging exception");
-            throw new NoSuchProductException();
-        }
+        return productRepository.findById(id)
+                .map(this::fromProductToProductDTO)
+                .filter(pr -> !(pr.getCurrencies().isEmpty() || pr.getDescriptions().isEmpty()))
+                .orElseThrow(NoSuchProductException::new);
     }
 
     @Override
