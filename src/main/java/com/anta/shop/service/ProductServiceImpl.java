@@ -17,6 +17,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class ProductServiceImpl implements ProductService {
 
     private static final Logger log = LoggerFactory.getLogger(ProductServiceImpl.class);
@@ -64,7 +65,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional
     public ProductDTO addProduct(ProductDTO productDTO) {
         Product product = new Product();
         fromProductDTOToProduct(productDTO, product);
@@ -73,7 +73,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional
     public ProductDTO updateProduct(int id, ProductDTO productDTO) {
         Product product = productRepository.getById(id);
         fromProductDTOToProduct(productDTO, product);
